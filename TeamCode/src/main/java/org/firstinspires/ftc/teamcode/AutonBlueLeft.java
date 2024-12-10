@@ -18,6 +18,50 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Autonomous
 public class AutonBlueLeft extends LinearOpMode {
 
+    private Mecanum mecanum;
+
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+        // Initialize Mecanum drivetrain
+        mecanum = new Mecanum(
+                hardwareMap.get(BHI260IMU.class, "imu"),
+                hardwareMap.get(DcMotor.class, "frontLeft"),
+                hardwareMap.get(DcMotor.class, "frontRight"),
+                hardwareMap.get(DcMotor.class, "backRight"),
+                hardwareMap.get(DcMotor.class, "backLeft")
+        );
+        mecanum.constantPower();
+
+        // Wait for the start button to be pressed
+        waitForStart();
+
+        if (opModeIsActive()) {
+            // Move forward for about an inch
+            mecanum.forward(0.3, 0, 1000); // Adjust the time (100ms) as needed for approximately 1 inch
+
+            sleep(1000); // Pause for half a second
+
+            // Move backward for about an inch
+            mecanum.forward(-0.3, 0, 1000); // Negative power for backward movement
+
+            sleep(1000); // Pause for half a second
+
+            // Spin clockwise once
+            mecanum.yaw(0.3, 360); // 360 degrees for a full rotation
+            // Stop the robot
+            mecanum.brake(10);
+        }
+    }
+}
+
+
+
+/* {
+
+
+
+
     // 30 seconds
     // positive linear value = linear slide goes up
 
@@ -29,21 +73,15 @@ public class AutonBlueLeft extends LinearOpMode {
 
     private double levelAngle = 0.53;
     private double depositAngle = 0.8;
-<<<<<<< HEAD
+
     private double releasePos = 0.875;
     private double storePix = 0.808;
-=======
-    private Servo openClaw;
-    private double releasePos = 0.1;
-    private double storePix = 0.04;
+
     // Declare computer vision and recognition variable
     private int recognition;
->>>>>>> d420d0868b424d0b5482ae5b3bc9871f41be8311
 
     private int elementPositionRecognition = 1;
 
-    // Declare computer vision and recognition variable
-    private int recognition;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -86,11 +124,11 @@ public class AutonBlueLeft extends LinearOpMode {
         //recognition = cv.getRecognition();
 
         // Close the claws
-        //claw.setPosition(0.3);
+        // claw.setPosition(0.3);
 
         if (opModeIsActive()) {
             linearSlideMotor.setPower(0.1);
-<<<<<<< HEAD
+
             clawAngle.setPosition(storePix); // closed
             if (elementPositionRecognition == 1) { // middle
                 mecanum.forward(0.5, 0, 1300); // move to cv spot
@@ -118,119 +156,11 @@ public class AutonBlueLeft extends LinearOpMode {
                 mecanum.forward(-0.5, 0, 1300);
                 mecanum.yaw(-0.1, 15);
             }
-=======
             clawAngle.setPosition(storePix);
-//            if (elementPositionRecognition == 2){ //left side
-//                mecanum.yaw(-0.1, 15);
-//                mecanum.forward(0.5, 0, 1300);
-//                openClaw.setPosition(releasePos);
-//                linearSlideMotor.setTargetPosition(300);
-//
-//                mecanum.forward(-0.5, 0, 1300);
-//                mecanum.yaw(0.1, 15);
-//            }
-//            else if (elementPositionRecognition == 3){ //right side
-//                mecanum.yaw(0.1, 15);
-//                mecanum.forward(0.5, 0, 1300);
-//                openClaw.setPosition(releasePos);
-//                linearSlideMotor.setTargetPosition(300);
-//
-//                mecanum.forward(-0.5, 0, 1300);
-//                mecanum.yaw(-0.1, 15);
-//            }
-//            else{                                  //center/default
-//                mecanum.forward(0.5, 0, 1370); //move to cv spot
-//                openClaw.setPosition(releasePos);
-//                linearSlideMotor.setTargetPosition(300);
-//                mecanum.forward(-0.5, 0, 1300); //move back to original
-//            }
-
-//            // rest of auton
-//            mecanum.drift(-0.5, 90, 1300);
-//            mecanum.forward(0.5, 0, 1300);
-//            mecanum.yaw(-0.5, 90);
-//            mecanum.forward(0.3, 0, 1000);
-//
-//            //lift clawAngle and open
-//            linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            linearSlideMotor.setTargetPosition(1500);
-//            clawAngle.setPosition(depositAngle);
-//            openClaw.setPosition(releasePos); //
-//            while (linearSlideMotor.isBusy()){
-//                idle();
-//            }
-//            linearSlideMotor.setPower(0);
-//            linearSlideMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//
-//            //linear slide goes down
-//
-//            //go to parking
-//
-//            linearSlideMotor.setTargetPosition(-1500);
-//            mecanum.drift(-0.5, 90, 100);
-//            mecanum.forward(0.5, 0, 100);
-
-
-
-
-            // moves robot to loading place for pixel
-//            mecanum.forward(-0.1, 0, 200);
-//            claw.setPosition(collectPos);
-//            linearSlideMotor.setTargetPosition(-100);
-//            linearSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-//            linearSlideMotor.setPower(-0.2);
-
-            // move right a little
-            //mecanum.drive(0, 90, 500);
-
-            // go straight a lot
-            //mecanum.forward(0.1, 0, 1500);
-
-            // go left a little
-            //mecanum.drive(0, -90, 500);
-
-            // use prop as an indicator and drop yellow pixel onto backdrop
-            // assuming we have a method to drop the yellow pixel, call it here
-            // dropPixel() ?
-
-            // go right a little
-            //mecanum.drive(0, 90, 200);
-
-            // go backward a lot
-            //mecanum.forward(-0.2, 180, 200);
-
-            // go left a little
-            //mecanum.drive(0, -90, 500);
-
-            // pick up purple pixel
-            //linearSlideMotor.setTargetPosition(-3500);
-
-            // pick up yellow pixel
-            // assuming we have a method to pick up the yellow pixel, call it here
-            // pickUpPixel() ?
-
-            // drop purple pixel on the line
-            //claw.setPosition(releasePos);
-
-            // go right a little
-            //mecanum.drive(0, 90, 500);
-
-            // go straight a lot
-            //mecanum.forward(0.2, 0, 1500);
-
-            // go left a little
-            //mecanum.drive(0, -90, 500);
-
-            // match and drop yellow pixel on the backdrop
-            // assuming you have a method to drop the yellow pixel, call it here
-            // dropPixel() ?
-
-            // park (backstage)
-            // assuming we have a method to park, call it here
->>>>>>> d420d0868b424d0b5482ae5b3bc9871f41be8311
         }
     }
 }
+*/
 
 /**
  * Cheatsheet
