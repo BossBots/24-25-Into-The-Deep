@@ -38,7 +38,7 @@ public class AutonBlueRight extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        //intialize imu
+        //intialize imu ...
         IMU imu;
         imu = hardwareMap.get(IMU.class, "imu");
 
